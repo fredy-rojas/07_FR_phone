@@ -1,0 +1,24 @@
+# version: "3.8" obsolete
+
+services:
+  dl-env:
+    build:
+      context: ./
+    image: fr_data_science_env:v2
+    ports:
+      - "8000:8888"
+    volumes:
+      - ./:/workspace
+      # - "${RAW_DATA_PATH:-./data}:/workspace/data" # ":-" is the operator for fallback mechanism
+      - "${RAW_DATA_PATH}:/workspace/data"
+      
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Won't break on CPU
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+    # Optional: If you want to *force* runtime use on GPU machines
+    # runtime: nvidia
