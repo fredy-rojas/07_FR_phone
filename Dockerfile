@@ -8,7 +8,7 @@ RUN apt-get update && \
     ln -sf /usr/bin/python3.10 /usr/bin/python3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install jupyterlab==4.4.2
+    pip install jupyterlab==4.5.3
 
 # Set up library for openCV 
 RUN apt update && apt install -y libgl1 libglib2.0-0 && apt clean
@@ -19,11 +19,18 @@ RUN apt install -y graphviz
 # Set working directory
 WORKDIR /workspace
 
-# Copy your requirements.txt into the container
-COPY requirements.txt .
-# Install Python packages from requirements.txt
-RUN pip install -r requirements.txt \
-    --extra-index-url https://download.pytorch.org/whl/cu117
+# # Copy your requirements.txt into the container
+# COPY requirements.txt .
+
+
+# # Install Python packages from requirements.txt
+# RUN pip install -r requirements.txt \
+#     --extra-index-url https://download.pytorch.org/whl/cu117
+
+#================
+# CONSIDER TO MODIFY THE CUDA TORCH VERSION TO INSTALL TORCH VERSION 
+#   compatible with transformer version 
+# pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121
 
 
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token='fredy-rojas'",  "--no-browser", "--port=8888"]
