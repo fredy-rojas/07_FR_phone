@@ -4,7 +4,7 @@ services:
   dl-env:
     build:
       context: ./
-    image: fr_data_science_env:v2
+    image: fr_hf:v1  # Changed from fr_data_science_env:v2 to fr_hf:v1
     ports:
       - "8000:8888"
     volumes:

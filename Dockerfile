@@ -16,12 +16,25 @@ RUN apt update && apt install -y libgl1 libglib2.0-0 && apt clean
 # set up library for torchview
 RUN apt install -y graphviz
 
+
+# Install ffmpeg (required for torchcodec)
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /workspace
 
-# # Copy your requirements.txt into the container
-# COPY requirements.txt .
+# Copy your requirements.txt into the container
+COPY requirements.txt .
 
+# Install PyTorch with CUDA 126 support first (special handling)
+RUN pip install --no-cache-dir torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0 --extra-index-url https://download.pytorch.org/whl/cu126 && \
+    pip install --no-cache-dir torchcodec==0.10.0
+
+# Install remaining requirements
+RUN pip install --no-cache-dir -r requirements.txt
 
 # # Install Python packages from requirements.txt
 # RUN pip install -r requirements.txt \
