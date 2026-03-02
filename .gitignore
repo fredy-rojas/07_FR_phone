@@ -6,3 +6,8 @@ data/
 .Trash-0/
 
 .ipynb_checkpoints/
+
+#_______________________________________________
+# Clone repositories to reproduce results
+clone/ss-phoneme-seg-main/
+
